@@ -1,0 +1,24 @@
+{
+  "name": "allex_eventemitterlowlevellib",
+  "version": "1.0.0",
+  "description": "JavaScript implementation of an Event Emitter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/allex-lowlevel-libs/eventemitter.git"
+  },
+  "keywords": [
+    "ecosystem:AllexJS",
+    "event",
+    "emitter"
+  ],
+  "author": "Andrija Petrovic <andrija.hers@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/allex-lowlevel-libs/eventemitter/issues"
+  },
+  "homepage": "https://github.com/allex-lowlevel-libs/eventemitter#readme"
+}
