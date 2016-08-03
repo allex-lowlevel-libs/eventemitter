@@ -14,6 +14,9 @@ describe('Testing \'Event emitter\' lib', function(){
     retobj.value = retobj.value - 5 + a;
     //console.log(retobj.value);
   };
+  var negateFn = function(retobj,a){
+    retobj.value = -retobj.value;
+  };
   it('Type testing', function(){
     var ee = new EventEmitter();
     expect(ee.attach.bind(null,false)).to.throw(Error,/Cannot attach/);
@@ -23,7 +26,7 @@ describe('Testing \'Event emitter\' lib', function(){
     expect(ee.attach.bind(null,undefined)).to.throw(Error,/Cannot attach/);
     expect(ee.attach.bind(null,null)).to.throw(Error,/Cannot attach/);
   });
-  it('Attach testing (functions)', function(){
+  it('attach testing (functions)', function(){
     var ee = new EventEmitter();
     var retObj = { value : 0 };
     var bindedExpFn = expFn.bind(null,retObj);
@@ -39,7 +42,7 @@ describe('Testing \'Event emitter\' lib', function(){
     ee.fire(4);
     expect(retObj.value).to.be.equal(15);
   });
-  it('Attach testing (array of functions)', function(){
+  it('attach testing (array of functions)', function(){
     var ee = new EventEmitter();
     var retObj = { value : 0 };
     var bindedExpFn = expFn.bind(null,retObj);
@@ -54,5 +57,58 @@ describe('Testing \'Event emitter\' lib', function(){
     ee.fire(4);
     expect(retObj.value).to.be.equal(15);
   });
+  it('attach testing (mixed)', function(){
+    var ee = new EventEmitter();
+    var retObj = { value : 0 };
+    var bindedExpFn = expFn.bind(null,retObj);
+    var bindedReduceByFiveFn = reduceByFiveFn.bind(null,retObj);
+    var bindedNegateFn = negateFn.bind(null,retObj);
+    ee.attach(bindedExpFn);
+    ee.attach([bindedReduceByFiveFn,bindedNegateFn]);
+    ee.fire(1);
+    expect(retObj.value).to.be.equal(3);
+    ee.fire(2);
+    expect(retObj.value).to.be.equal(-1);
+    ee.fire(3);
+    expect(retObj.value).to.be.equal(-7);
+    ee.fire(4);
+    expect(retObj.value).to.be.equal(-15);
+  });
 
+  it('attachForSingleShot testing (functions)', function(){
+    var ee = new EventEmitter();
+    var retObj = { value : 0 };
+    var bindedExpFn = expFn.bind(null,retObj);
+    var bindedReduceByFiveFn = reduceByFiveFn.bind(null,retObj);
+    ee.attachForSingleShot(bindedExpFn);
+    ee.attachForSingleShot(bindedReduceByFiveFn);
+    ee.fire(1);
+    expect(retObj.value).to.be.equal(-3);
+    ee.fire(2); //no effect
+    expect(retObj.value).to.be.equal(-3);
+  });
+  it('attachForSingleShot testing (array of functions)', function(){
+    var ee = new EventEmitter();
+    var retObj = { value : 0 };
+    var bindedExpFn = expFn.bind(null,retObj);
+    var bindedReduceByFiveFn = reduceByFiveFn.bind(null,retObj);
+    ee.attachForSingleShot([bindedExpFn,bindedReduceByFiveFn]);
+    ee.fire(1);
+    expect(retObj.value).to.be.equal(-3);
+    ee.fire(2);//no effect
+    expect(retObj.value).to.be.equal(-3);
+  });
+  it('attachForSingleShot testing (mixed)', function(){
+    var ee = new EventEmitter();
+    var retObj = { value : 0 };
+    var bindedExpFn = expFn.bind(null,retObj);
+    var bindedReduceByFiveFn = reduceByFiveFn.bind(null,retObj);
+    var bindedNegateFn = negateFn.bind(null,retObj);
+    ee.attachForSingleShot(bindedExpFn);
+    ee.attachForSingleShot([bindedReduceByFiveFn,bindedNegateFn]);
+    ee.fire(1);
+    expect(retObj.value).to.be.equal(3);
+    ee.fire(2);//no effect
+    expect(retObj.value).to.be.equal(3);
+  });
 });

@@ -103,7 +103,7 @@ function createHookCollection(doublelinkedlistlib, inherit, isFunction, isArrayO
     if (isFunction(cb)) {
       item = new SingleShotSubscription(cb);
     }
-    if (isArrayOfFunctions(cb)) {
+    if (isArrayOfFunctions(cb) && cb.length > 0) {
       item = new SingleShotSubscriptionOnArray(cb);
     }
     if (!item) {
