@@ -75,7 +75,7 @@ function createHookCollection(doublelinkedlistlib, inherit, isFunction, isArrayO
     SubscriptionMixin.prototype.destroy.call(this);
     SingleShotSubscription.prototype.destroy.call(this);
   };
-  Subscription.prototype.isSelfDestroyable = false;
+  SubscriptionOnArray.prototype.isSelfDestroyable = false;
 
 
   function HookCollection() {
@@ -88,7 +88,7 @@ function createHookCollection(doublelinkedlistlib, inherit, isFunction, isArrayO
     if (isFunction(cb)) {// || isArrayOfFunctions(cb))) {
       item = new Subscription(this, cb);
     }
-    if (isArrayOfFunctions(cb)) {
+    if (isArrayOfFunctions(cb) && cb.length > 0) {
       item = new SubscriptionOnArray(this, cb);
     }
     if (!item) {
