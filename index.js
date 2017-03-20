@@ -85,6 +85,9 @@ function createHookCollection(doublelinkedlistlib, inherit, isFunction, isArrayO
   HookCollection.prototype.destruct = HookCollection.prototype.destroy;
   HookCollection.prototype.attach = function (cb) {
     var item;
+    if (!this.assureForController()) {
+      return;
+    }
     if (isFunction(cb)) {// || isArrayOfFunctions(cb))) {
       item = new Subscription(this, cb);
     }
@@ -94,12 +97,14 @@ function createHookCollection(doublelinkedlistlib, inherit, isFunction, isArrayO
     if (!item) {
       throw new Error('Cannot attach');
     }
-    this.assureForController();
     this.controller.addToBack(item);
     return item;
   };
   HookCollection.prototype.attachForSingleShot = function (cb) {
     var item;
+    if (!this.assureForController()) {
+      return;
+    }
     if (isFunction(cb)) {
       item = new SingleShotSubscription(cb);
     }
@@ -109,12 +114,14 @@ function createHookCollection(doublelinkedlistlib, inherit, isFunction, isArrayO
     if (!item) {
       throw new Error('Cannot attach');
     }
-    this.assureForController();
     this.controller.addToBack(item);
   };
   HookCollection.prototype.fire = function () {
-    var args = Array.prototype.slice.call(arguments);
-    this.assureForController();
+    var args;
+    if (!this.assureForController()) {
+      return;
+    }
+    args = Array.prototype.slice.call(arguments);
     this.controller.traverse(args);
   };
   return HookCollection;

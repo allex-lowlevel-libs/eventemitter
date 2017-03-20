@@ -19,12 +19,12 @@ describe('Testing \'Event emitter\' lib', function(){
   };
   it('Type testing', function(){
     var ee = new EventEmitter();
-    expect(ee.attach.bind(null,false)).to.throw(Error,/Cannot attach/);
-    expect(ee.attach.bind(null,{})).to.throw(Error,/Cannot attach/);
-    expect(ee.attach.bind(null,[])).to.throw(Error,/Cannot attach/);
-    expect(ee.attach.bind(null,'smth')).to.throw(Error,/Cannot attach/);
-    expect(ee.attach.bind(null,undefined)).to.throw(Error,/Cannot attach/);
-    expect(ee.attach.bind(null,null)).to.throw(Error,/Cannot attach/);
+    expect(ee.attach.bind(ee,false)).to.throw(Error,/Cannot attach/);
+    expect(ee.attach.bind(ee,{})).to.throw(Error,/Cannot attach/);
+    expect(ee.attach.bind(ee,[])).to.throw(Error,/Cannot attach/);
+    expect(ee.attach.bind(ee,'smth')).to.throw(Error,/Cannot attach/);
+    expect(ee.attach.bind(ee,undefined)).to.throw(Error,/Cannot attach/);
+    expect(ee.attach.bind(ee,null)).to.throw(Error,/Cannot attach/);
   });
   it('attach testing (functions)', function(){
     var ee = new EventEmitter();
