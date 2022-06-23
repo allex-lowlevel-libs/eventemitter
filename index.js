@@ -122,7 +122,7 @@ function createHookCollection(doublelinkedlistlib, inherit, isFunction, isArrayO
       return;
     }
     args = Array.prototype.slice.call(arguments);
-    this.controller.traverse(args);
+    this.controller.traverseSafe(args, 'Error in HookCollection.fire');
   };
   return HookCollection;
 }
