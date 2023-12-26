@@ -29,6 +29,9 @@ function createHookCollection(doublelinkedlistlib, inherit, isFunction, isArrayO
     var l = this.list;
     this.list = null;
     if (l) {
+      if (l.controller && l.controller.shouldDestroy) {
+        return;
+      }
       l.remove(this);
     }
   };
